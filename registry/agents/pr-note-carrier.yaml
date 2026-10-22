@@ -1,0 +1,15 @@
+id: pr-note-carrier
+owner: "@karim"
+purpose: >
+  Carry a human-authored note onto a pull request as a comment, after the
+  author has approved the exact text. The agent transports; the human writes.
+  It cannot assign, close, label or schedule anything.
+tier: T2_SYSTEM_OF_RECORD
+autonomy: carry_human_authored
+human_gate: true
+eval_suite: pr-note-carrier
+grants:
+  - tool: github.read_issue
+    rate_per_run: 2
+  - tool: github.comment
+    rate_per_run: 1

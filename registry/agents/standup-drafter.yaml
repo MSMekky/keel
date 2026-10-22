@@ -1,0 +1,17 @@
+id: standup-drafter
+owner: "@lin"
+purpose: >
+  Carry a human-authored standup note into the work item of record after the
+  author has approved it verbatim. The agent transports; the human writes.
+tier: T2_SYSTEM_OF_RECORD
+autonomy: carry_human_authored
+human_gate: true
+eval_suite: standup-drafter
+grants:
+  - tool: work_item.read
+    rate_per_run: 3
+  - tool: work_item.append_note
+    rate_per_run: 1
+contact:
+  max_interruptions_per_week: 2
+  quiet_hours: [21, 7]

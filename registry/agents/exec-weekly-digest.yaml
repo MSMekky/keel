@@ -1,0 +1,21 @@
+id: exec-weekly-digest
+owner: "@nadia"
+purpose: >
+  Read merged PRs and resolved incidents from the warehouse and produce the
+  Monday executive digest. Reports what happened. Does not interpret intent,
+  assign work, or characterise anyone's performance.
+tier: T1_DRAFT_INTERNAL
+autonomy: draft_for_human
+human_gate: true
+eval_suite: exec-weekly-digest
+model_hint: sonnet
+grants:
+  - tool: warehouse.query
+    scopes: [merged_prs, incidents]
+    rate_per_run: 6
+  - tool: draft.save
+    rate_per_run: 1
+contact:
+  max_interruptions_per_week: 1
+  bundle_window_minutes: 1440
+  quiet_hours: [20, 8]

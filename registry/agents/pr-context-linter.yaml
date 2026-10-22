@@ -1,0 +1,15 @@
+id: pr-context-linter
+owner: "@karim"
+purpose: >
+  On a new pull request, read the touched work item and report missing
+  context back as a comment for the author. Read-only against the warehouse;
+  produces text, never a status change.
+tier: T0_READ_INTERNAL
+autonomy: read_only
+human_gate: false
+grants:
+  - tool: work_item.read
+    rate_per_run: 4
+  - tool: warehouse.query
+    scopes: [merged_prs]
+    rate_per_run: 2

@@ -1,0 +1,12 @@
+id: platform-qa
+owner: "@nadia"
+purpose: >
+  Answer questions about the agent platform from the registry and run logs.
+  Reads internal data only.
+tier: T0_READ_INTERNAL
+autonomy: read_only
+human_gate: false
+grants:
+  - tool: warehouse.query
+    scopes: [merged_prs, incidents]
+    rate_per_run: 8

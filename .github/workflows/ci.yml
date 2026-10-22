@@ -1,0 +1,67 @@
+name: gate
+
+# The gate. A regression does not merge.
+#
+# Three checks, each blocking:
+#   1. the registry loads          — no ungoverned agent enters the system
+#   2. the tests pass              — including the prohibition assertions
+#   3. the eval suites pass        — safety cases block regardless of score
+#
+# Everything runs offline against ScriptedProvider: deterministic, free, and
+# no API key in CI.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml
+
+      - name: Registry validates
+        run: python -m keel.cli validate
+
+      - name: Prohibited capabilities have no code path
+        run: python -m unittest tests.test_prohibited_capability -v
+
+      - name: Full test suite
+        run: python -m unittest discover -s tests -t .
+
+      - name: Evaluation gate
+        run: python -m keel.cli eval --gate
+
+      - name: Live suites replay from cassettes (no credentials needed)
+        run: python -m keel.cli eval --live-only || true
+        # `|| true` only until the first cassette is recorded; see
+        # docs/RUN-LOG.md. Remove it in the same commit that adds one.
+
+      - name: MCP server starts and lists its tools
+        run: |
+          echo '{"jsonrpc":"2.0","id":1,"method":"tools/list"}' \
+            | python -m keel.mcp | python -c "import sys,json; \
+              t=json.load(sys.stdin)['result']['tools']; \
+              assert not any('approve' in x['name'] for x in t), 'approval leaked into MCP'; \
+              print(len(t),'MCP tools, none of them approve')"
+
+      - name: Judge dataset and split are valid
+        run: python -m keel.evals.judge.dataset
+
+      - name: Verification script cannot overclaim
+        # Asserts a failed live run produces a "NOT verified" log. The live
+        # run itself needs credentials and is not run in CI.
+        run: python -m unittest tests.test_verify -v
+
+      - name: Single-file build is not stale
+        # Fails if the package changed without regenerating dist/keel.py, so
+        # the two artifacts cannot silently diverge.
+        run: python build_single_file.py --check
+
+      - name: Single-file build passes its own gate
+        run: cd dist && python keel.py gate

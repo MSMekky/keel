@@ -1,0 +1,26 @@
+# This spec is kept out of the loaded registry on purpose.
+#
+# It is a real request that came in: an agent that triages the inbound issue
+# queue and sets owner, priority and due date so the backlog stays tidy.
+#
+# `keel validate --include-rejected` loads it and shows the exact error. It
+# fails twice, independently:
+#
+#   1. ProhibitedCapability from the registry validator — `autonomous_commitment`
+#      is a named class with no handler in the executor dispatch table.
+#   2. Even with the autonomy class softened to `carry_human_authored`, the
+#      grant below references `work_item.set_fields`, a tool that cannot be
+#      registered: `capabilities.base.register` rejects any tool declaring
+#      `owner`, `due_date`, `status` or `priority` as a parameter, at import.
+#
+# The point of keeping the file is that the refusal is demonstrable. When
+# someone asks why the platform will not do this, the answer is a command
+# they can run, not a policy document.
+id: triage-autopilot
+owner: "@karim"
+purpose: Keep the inbound backlog tidy by assigning and scheduling work.
+tier: T2_SYSTEM_OF_RECORD
+autonomy: autonomous_commitment
+human_gate: false
+grants:
+  - tool: work_item.set_fields

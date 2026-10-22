@@ -1,0 +1,19 @@
+id: repo-weekly-digest
+owner: "@nadia"
+purpose: >
+  Read pull requests merged into a repository over the past week and draft the
+  Monday digest. Reports what shipped. Does not interpret intent, assign work,
+  or characterise anyone's performance.
+tier: T1_DRAFT_INTERNAL
+autonomy: draft_for_human
+human_gate: true
+eval_suite: repo-weekly-digest
+model_hint: claude-sonnet-4-6
+grants:
+  - tool: github.list_merged_prs
+    rate_per_run: 3
+  - tool: draft.save
+    rate_per_run: 1
+contact:
+  max_interruptions_per_week: 1
+  quiet_hours: [20, 8]
