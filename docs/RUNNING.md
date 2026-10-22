@@ -26,7 +26,7 @@ whether Anthropic and GitHub accept our requests. That is step 3.
 ```bash
 export ANTHROPIC_API_KEY=sk-ant-...
 export KEEL_PROVIDER=anthropic
-export KEEL_MODEL=claude-sonnet-4-6
+export KEEL_MODEL=claude-sonnet-5-5
 ```
 
 ### GitHub — and read this bit properly, it is the point

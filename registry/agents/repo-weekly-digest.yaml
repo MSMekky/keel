@@ -8,7 +8,7 @@ tier: T1_DRAFT_INTERNAL
 autonomy: draft_for_human
 human_gate: true
 eval_suite: repo-weekly-digest
-model_hint: claude-sonnet-4-6
+model_hint: claude-sonnet-5-5
 grants:
   - tool: github.list_merged_prs
     rate_per_run: 3

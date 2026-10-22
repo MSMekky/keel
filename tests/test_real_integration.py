@@ -60,7 +60,7 @@ def _msg(text=None, tool=None, args=None, tokens=(10, 5)) -> dict:
     if tool:
         content.append({"type": "tool_use", "id": "toolu_1", "name": tool,
                         "input": args or {}})
-    return {"model": "claude-sonnet-4-6", "content": content,
+    return {"model": "claude-sonnet-5-5", "content": content,
             "stop_reason": "tool_use" if tool else "end_turn",
             "usage": {"input_tokens": tokens[0], "output_tokens": tokens[1]}}
 

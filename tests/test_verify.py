@@ -28,7 +28,7 @@ _spec.loader.exec_module(kv)
 
 def evidence(*steps: tuple[str, bool]) -> "kv.Evidence":
     ev = kv.Evidence(started_at="2026-08-04T09:00:00", repo="acme/throwaway",
-                     model="claude-sonnet-4-6", python="3.12.1")
+                     model="claude-sonnet-5-5", python="3.12.1")
     for name, ok in steps:
         ev.steps.append(kv.Step(
             name=name, ok=ok,

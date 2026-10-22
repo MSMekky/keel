@@ -207,7 +207,7 @@ def _fresh(tmp: pathlib.Path) -> tuple[Executor, st.Store, AuditLog, Client]:
     client = Client(max_retries=3)
     github.configure(github.GitHub(client=client))
     provider = AnthropicProvider(
-        model=os.environ.get("KEEL_MODEL", "claude-sonnet-4-6"), client=client)
+        model=os.environ.get("KEEL_MODEL", "claude-sonnet-5-5"), client=client)
     store = st.Store(tmp / "live.db")
     audit = AuditLog(tmp / "live.jsonl")
     ex = Executor(Registry.load(ROOT / "registry" / "agents"), store, provider, audit)
@@ -227,7 +227,7 @@ def cmd_live(args) -> int:
 
     ev = Evidence(started_at=time.strftime("%Y-%m-%dT%H:%M:%S"),
                   repo=repo,
-                  model=os.environ.get("KEEL_MODEL", "claude-sonnet-4-6"),
+                  model=os.environ.get("KEEL_MODEL", "claude-sonnet-5-5"),
                   python=sys.version.split()[0])
 
     ex, store, audit, client = _fresh(tmp)

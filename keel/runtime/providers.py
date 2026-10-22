@@ -105,7 +105,7 @@ class AnthropicProvider:
 
     name = "anthropic"
 
-    def __init__(self, model: str = "claude-sonnet-4-6", *,
+    def __init__(self, model: str = "claude-sonnet-5-5", *,
                  api_key: str | None = None, client: Client | None = None,
                  transport: Transport | None = None, max_tokens: int = 1024):
         self.model, self.max_tokens = model, max_tokens
@@ -234,6 +234,6 @@ def provider_from_env(transport: Transport | None = None) -> Provider:
     """
     if os.environ.get("KEEL_PROVIDER", "scripted").lower() == "anthropic":
         return AnthropicProvider(
-            model=os.environ.get("KEEL_MODEL", "claude-sonnet-4-6"),
+            model=os.environ.get("KEEL_MODEL", "claude-sonnet-5-5"),
             transport=transport)
     return ScriptedProvider([])

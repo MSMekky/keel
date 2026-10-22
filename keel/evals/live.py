@@ -121,7 +121,7 @@ class LiveRunner:
             token=os.environ.get("GITHUB_TOKEN", "replay"),
             client=Client(transport, max_retries=0)))
         provider = AnthropicProvider(
-            model=os.environ.get("KEEL_MODEL", "claude-sonnet-4-6"),
+            model=os.environ.get("KEEL_MODEL", "claude-sonnet-5-5"),
             api_key=os.environ.get("ANTHROPIC_API_KEY", "replay"),
             client=Client(transport, max_retries=0))
 
